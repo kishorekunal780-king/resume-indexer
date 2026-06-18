@@ -25,10 +25,10 @@ export default function ScoreGauge({ score, label = "ATS SCORE" }) {
       const t = setTimeout(() => setDisplayScore(0), 0);
       return () => clearTimeout(t);
     }
-    
+
     const duration = 1200; // ms
     const stepTime = Math.max(Math.floor(duration / end), 10);
-    
+
     const timer = setInterval(() => {
       start += 1;
       if (start >= end) {
@@ -69,10 +69,10 @@ export default function ScoreGauge({ score, label = "ATS SCORE" }) {
 
   return (
     <div className={`flex flex-col items-center justify-center p-8 rounded-3xl border glass-card shadow-2xl relative overflow-hidden transition-all duration-300 hover:scale-[1.01] w-full ${style.glowClass}`}>
-      
+
       {/* Background soft glow glow */}
-      <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full blur-3xl pointer-events-none opacity-20 transition-all duration-500" 
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full blur-3xl pointer-events-none opacity-20 transition-all duration-500"
         style={{ backgroundColor: style.color }}
       />
 
@@ -106,21 +106,18 @@ export default function ScoreGauge({ score, label = "ATS SCORE" }) {
             strokeLinecap="round"
           />
         </svg>
-        
+
         {/* Centered Score Label */}
         <div className="absolute flex flex-col items-center justify-center select-none">
-          <motion.span 
+          <motion.span
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-6xl font-black tracking-tighter text-brand-text font-sans leading-none flex items-baseline justify-center"
+            className="text-10xl font-black tracking-tighter text-brand-text font-sans leading-none flex items-baseline justify-center"
           >
             {displayScore}
-            <span className="text-sm font-semibold text-brand-text-muted/60 tracking-normal ml-0.5">/100</span>
+            <span className="text-xs font-semibold text-brand-text-muted/60 tracking-normal ml-1">/100</span>
           </motion.span>
-          <span className="text-[10px] font-bold tracking-[0.25em] text-brand-text-muted uppercase mt-2">
-            Match Index
-          </span>
         </div>
       </div>
 
