@@ -76,9 +76,9 @@ export default function ScoreGauge({ score, label = "ATS SCORE" }) {
         style={{ backgroundColor: style.color }}
       />
 
-      <div className="relative w-[240px] h-[240px] z-10 flex items-center justify-center">
+      <div className="relative w-[320px] h-[320px] z-10 flex items-center justify-center">
         {/* SVG Circular Gauge */}
-        <svg className="w-full h-full transform -rotate-90" viewBox="0 0 220 220">
+        <svg className="w-full h-full transform -rotate-90" viewBox="0 0 320 320">
           {/* Background track circle */}
           <circle
             cx="110"
@@ -113,7 +113,8 @@ export default function ScoreGauge({ score, label = "ATS SCORE" }) {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-10xl font-black tracking-tighter text-brand-text font-sans leading-none flex items-baseline justify-center"
+            className="font-black tracking-tighter text-brand-text font-sans leading-none flex items-baseline justify-center"
+            style={{ fontSize: "6rem" }}
           >
             {displayScore}
             <span className="text-xs font-semibold text-brand-text-muted/60 tracking-normal ml-1">/100</span>
