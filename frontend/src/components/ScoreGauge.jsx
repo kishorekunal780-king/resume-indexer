@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 export default function ScoreGauge({ score, label = "ATS SCORE" }) {
-  const radius = 90;
+  const radius = 130;
   const circumference = 2 * Math.PI * radius; // ~565.48
   const [offset, setOffset] = useState(circumference);
   const [displayScore, setDisplayScore] = useState(0);
@@ -81,27 +81,27 @@ export default function ScoreGauge({ score, label = "ATS SCORE" }) {
         <svg className="w-full h-full transform -rotate-90" viewBox="0 0 320 320">
           {/* Background track circle */}
           <circle
-            cx="110"
-            cy="110"
+            cx="160"
+            cy="160"
             r={radius}
             stroke="var(--color-brand-border)"
-            strokeWidth="10"
+            strokeWidth="12"
             fill="transparent"
           />
           {/* Animated active progress circle */}
           <motion.circle
-            cx="110"
-            cy="110"
+            cx="160"
+            cy="160"
             r={radius}
             stroke={style.color}
-            strokeWidth="10"
+            strokeWidth="12"
             fill="transparent"
             strokeDasharray={circumference}
             initial={{ strokeDashoffset: circumference }}
             animate={{ strokeDashoffset: offset }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             style={{
-              filter: `drop-shadow(0 0 8px ${style.color}cc)`
+              filter: `drop-shadow(0 0 10px ${style.color}cc)`
             }}
             strokeLinecap="round"
           />

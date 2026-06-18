@@ -72,19 +72,7 @@ export default function App() {
           {analysisData ? "Analysis Report" : "Resume Intelligence"}
         </div>
 
-        <div className="flex items-center gap-4">
-          {analysisData && (
-            <button
-              onClick={handleReset}
-              className="px-4 py-1.5 rounded-lg border border-brand-border bg-brand-card text-xs font-bold uppercase tracking-wider text-brand-text hover:bg-brand-border transition-all flex items-center gap-2"
-            >
-              <RefreshCw className="w-3.5 h-3.5" />
-              Upload New
-            </button>
-          )}
-
-
-        </div>
+        <div />
       </header>
 
       {/* MAIN CONTENT WRAPPER */}
