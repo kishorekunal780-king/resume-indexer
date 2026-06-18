@@ -52,7 +52,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col justify-between selection:bg-brand-accent/30 selection:text-brand-text bg-brand-primary">
-      
+
       {/* Decorative Blur Backgrounds */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] accent-glow-primary rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
       <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] accent-glow-secondary rounded-full blur-3xl pointer-events-none" />
@@ -90,16 +90,16 @@ export default function App() {
               {/* HERO SECTION */}
               <div className="text-center space-y-4 max-w-3xl mx-auto mb-12 relative">
 
-                
+
                 <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.1] text-brand-text font-sans">
-                  Resume Intelligence <br className="hidden md:inline" />
+                  Resume Evaluation <br className="hidden md:inline" />
                   <span className="bg-gradient-to-r from-brand-accent via-indigo-400 to-brand-accent-sec bg-clip-text text-transparent">
-                    Platform
+                    Engine
                   </span>
                 </h2>
-                
+
                 <p className="text-brand-text-muted text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-                  Analyze resumes, identify skill gaps, improve ATS scores, and optimize job alignment using AI-powered insights.
+                  Analyze resumes, identify skill gaps, improve ATS scores, and optimize job alignment.
                 </p>
               </div>
 
@@ -162,7 +162,7 @@ export default function App() {
 
       {/* FOOTER */}
       <footer className="w-full py-8 text-center text-xs text-brand-text-muted border-t border-brand-border bg-brand-primary/40 relative z-10">
-        <p>© Solvrex. Developed for Solverex.</p>
+        <p>© Resume Indexer. Developed for Solverex.</p>
       </footer>
     </div>
   );
