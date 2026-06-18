@@ -108,17 +108,19 @@ export default function ScoreGauge({ score, label = "ATS SCORE" }) {
         </svg>
 
         {/* Centered Score Label */}
-        <div className="absolute flex flex-col items-center justify-center select-none">
+        <div className="absolute flex flex-col items-center justify-center select-none gap-1">
           <motion.span
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="font-black tracking-tighter text-brand-text font-sans leading-none flex items-baseline justify-center"
-            style={{ fontSize: "6rem" }}
+            className="font-black tracking-tighter text-brand-text font-sans leading-none"
+            style={{ fontSize: "88px" }}
           >
             {displayScore}
-            <span className="text-xs font-semibold text-brand-text-muted/60 tracking-normal ml-1">/100</span>
           </motion.span>
+          <span className="text-lg font-semibold text-brand-text-muted/60 tracking-wide leading-none">
+            /100
+          </span>
         </div>
       </div>
 
