@@ -1,26 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@theme {
+  --color-brand-primary: #050816;
+  --color-brand-secondary: #0B1120;
+  --color-brand-card: rgba(255, 255, 255, 0.04);
+  --color-brand-accent: #6366F1;
+  --color-brand-accent-sec: #8B5CF6;
+  --color-brand-success: #22C55E;
+  --color-brand-warning: #F59E0B;
+  --color-brand-danger: #EF4444;
+  --color-brand-text: #FFFFFF;
+  --color-brand-text-muted: #94A3B8;
+  --color-brand-border: rgba(255, 255, 255, 0.08);
+
+  --font-sans: 'Inter', 'Outfit', sans-serif;
+}
+
+
+
 body {
-  background: radial-gradient(circle at top right, #0f172a, #020617);
-  color: #f8fafc;
+  background: radial-gradient(circle at 50% 0%, var(--color-brand-secondary) 0%, var(--color-brand-primary) 100%);
+  color: var(--color-brand-text);
   font-family: 'Inter', sans-serif;
-  line-height: 2.3;
+  line-height: 1.6;
   min-height: 100vh;
   margin: 0;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Glassmorphism Classes */
 .glass-card {
-  background: rgba(30, 41, 59, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  background: var(--color-brand-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-brand-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
 }
 
 .glass-card-hover {
@@ -28,27 +47,55 @@ body {
 }
 
 .glass-card-hover:hover {
-  background: rgba(30, 41, 59, 0.6);
-  border-color: rgba(56, 189, 248, 0.25);
-  box-shadow: 0 12px 40px 0 rgba(56, 189, 248, 0.15);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(99, 102, 241, 0.2);
+  box-shadow: 0 12px 40px 0 rgba(99, 102, 241, 0.1);
   transform: translateY(-2px);
+}
+
+
+
+/* Glow overlays */
+.accent-glow-primary {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, rgba(99, 102, 241, 0) 70%);
+}
+
+.accent-glow-secondary {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, rgba(139, 92, 246, 0) 70%);
+}
+
+/* Custom animations for background layers */
+@keyframes slow-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-slow-spin {
+  animation: slow-spin 20s linear infinite;
 }
 
 /* Micro-animations */
 @keyframes pulse-glow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.12);
   }
-
   50% {
-    box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+    box-shadow: 0 0 25px rgba(99, 102, 241, 0.25);
   }
 }
 
 .glow-animation {
   animation: pulse-glow 3s infinite ease-in-out;
+}
+
+/* ChatGPT Input Area styling overrides */
+textarea::placeholder {
+  color: var(--color-brand-text-muted) !important;
+  opacity: 0.6;
 }
 
 /* Custom Scrollbar */
@@ -58,14 +105,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(5, 8, 22, 0.1);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.3);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
 }
 
+
+
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.5);
+  background: rgba(255, 255, 255, 0.2);
 }

@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import { Sparkles, RefreshCw, AlertCircle, Cpu } from "lucide-react";
+import { useState } from "react";
+import { Cpu, RefreshCw, AlertCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import FileUploader from "./components/FileUploader";
-import ScoreGauge from "./components/ScoreGauge";
 import ResultsPanel from "./components/ResultsPanel";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [analysisData, setAnalysisData] = useState(null);
   const [error, setError] = useState("");
+
 
   const handleAnalyze = async ({ resume, jdFile, jdText }) => {
     setIsLoading(true);
@@ -24,7 +25,6 @@ export default function App() {
     }
 
     try {
-      // Direct call to FastAPI backend
       const response = await fetch("https://resume-indexer-api.onrender.com/api/analyze", {
         method: "POST",
         body: formData,
@@ -39,7 +39,7 @@ export default function App() {
       setAnalysisData(data);
     } catch (err) {
       console.error(err);
-      setError(JSON.stringify(err));
+      setError(err.message || JSON.stringify(err));
     } finally {
       setIsLoading(false);
     }
@@ -51,96 +51,130 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between selection:bg-sky-500/30 selection:text-sky-200">
+    <div className="min-h-screen flex flex-col justify-between selection:bg-brand-accent/30 selection:text-brand-text bg-brand-primary">
+      
+      {/* Decorative Blur Backgrounds */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] accent-glow-primary rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
+      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] accent-glow-secondary rounded-full blur-3xl pointer-events-none" />
 
-      {/* Top Header */}
-      <header className="w-full max-w-7xl mx-auto px-20 py-6 flex items-center justify-between border-b border-slate-800/40">
-        <div className="flex items-center justify-left gap-2.5 ml-8">
-          <div className="p-2 bg-gradient-to-tr from-sky-500 to-indigo-500 rounded-xl shadow-lg shadow-sky-500/10">
-            <Cpu className="w-10 h-10 text-white" />
+      {/* FIXED TOP HEADER - 70px */}
+      <header className="fixed top-0 left-0 right-0 h-[70px] z-50 glass-card bg-brand-primary/80 backdrop-blur-xl border-b border-brand-border flex items-center justify-between px-6 md:px-16">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={handleReset}>
+          <div className="p-2 bg-gradient-to-tr from-brand-accent to-brand-accent-sec rounded-xl shadow-lg shadow-brand-accent/20">
+            <Cpu className="w-6 h-6 text-white" />
           </div>
-          <div>
-            <h1 className="text-lg font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-white ">
-              RESUME INDEXER
-            </h1>
-          </div>
+          <span className="text-xl font-black tracking-wider text-brand-text font-sans">
+            RESUME INDEXER
+          </span>
         </div>
 
+        <div className="hidden sm:block text-xs font-semibold tracking-[0.25em] text-brand-text-muted uppercase">
+          {analysisData ? "Analysis Report" : "Resume Intelligence"}
+        </div>
+
+        <div className="flex items-center gap-4">
+          {analysisData && (
+            <button
+              onClick={handleReset}
+              className="px-4 py-1.5 rounded-lg border border-brand-border bg-brand-card text-xs font-bold uppercase tracking-wider text-brand-text hover:bg-brand-border transition-all flex items-center gap-2"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              Upload New
+            </button>
+          )}
+
+
+        </div>
       </header>
 
-      {/* Main Container */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-4 flex flex-col justify-center">
+      {/* MAIN CONTENT WRAPPER */}
+      <main className="flex-1 w-full max-w-7xl mx-auto px-6 pt-[110px] pb-16 flex flex-col justify-center relative z-10">
+        <AnimatePresence mode="wait">
+          {!analysisData ? (
+            <motion.div
+              key="uploader"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="w-full flex flex-col items-center"
+            >
+              {/* HERO SECTION */}
+              <div className="text-center space-y-4 max-w-3xl mx-auto mb-12 relative">
 
-        {/* Upload State */}
-        {!analysisData ? (
-          <div className="max-w-2xl mx-auto w-full space-y-4 py-2 -mt-8">
-            <div className="text-center space-y-1">
-
-              <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-                Optimize Your Resume for
-              </h2>
-              <p className="text-slate-400 text-sm max-w-md mx-auto">
-                Scan your resume PDF, extract matching core keywords, and receive technical feedback mapping to hiring profiles.
-              </p>
-            </div>
-
-            {error && (
-              <div className="flex items-center gap-3 bg-red-950/40 border border-red-500/20 text-red-300 p-4 rounded-xl text-sm">
-                <AlertCircle className="w-5 h-5 text-red-400 shrink-0" />
-                <div>
-                  <p className="font-semibold">Analysis Failed</p>
-                  <p className="text-xs text-red-400/80 mt-0.5">{error}</p>
-                </div>
-              </div>
-            )}
-
-            <div className="p-6 sm:p-8 rounded-2xl border glass-card shadow-2xl relative overflow-hidden">
-              {/* Glow overlay */}
-              <div className="absolute top-0 right-1/4 w-40 h-40 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
-              <FileUploader onAnalyze={handleAnalyze} isLoading={isLoading} />
-            </div>
-          </div>
-        ) : (
-          /* Results Dashboard State */
-          <div className="space-y-6 animate-fadeIn py-4">
-
-            {/* Summary Top Row */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-800/60 pb-6">
-              <div className="text-center md:text-left space-y-2">
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                  Resume Analysis Outcomes
+                
+                <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.1] text-brand-text font-sans">
+                  Resume Intelligence <br className="hidden md:inline" />
+                  <span className="bg-gradient-to-r from-brand-accent via-indigo-400 to-brand-accent-sec bg-clip-text text-transparent">
+                    Platform
+                  </span>
                 </h2>
-                <p className="text-slate-400 text-sm">
-                  Review matching parameters, skills gaps, and checklist recommendations below.
+                
+                <p className="text-brand-text-muted text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+                  Analyze resumes, identify skill gaps, improve ATS scores, and optimize job alignment using AI-powered insights.
                 </p>
               </div>
-              <div className="flex gap-4">
-                <button
-                  onClick={handleReset}
-                  className="px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-900/60 text-sm font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-all flex items-center gap-2"
+
+              {/* Error Alert */}
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="w-full max-w-[900px] mb-6 flex items-center gap-3 bg-brand-danger/10 border border-brand-danger/20 text-brand-danger p-4 rounded-2xl text-sm"
                 >
-                  <RefreshCw className="w-4 h-4" />
-                  Analyze New File
-                </button>
-              </div>
-            </div>
+                  <AlertCircle className="w-5 h-5 shrink-0" />
+                  <div>
+                    <p className="font-bold">Analysis Failed</p>
+                    <p className="text-xs opacity-80 mt-0.5">{error}</p>
+                  </div>
+                </motion.div>
+              )}
 
-            {/* Score Showcase widget */}
-            <div className="flex justify-center mb-10">
-              <div className="w-full md:w-auto">
-                <ScoreGauge score={analysisData.ats_score} />
+              {/* Main Drag-Drop Card */}
+              <div className="w-full max-w-[900px]">
+                <FileUploader onAnalyze={handleAnalyze} isLoading={isLoading} />
               </div>
-            </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="results"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="space-y-8 w-full"
+            >
+              {/* Results Top Header */}
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-brand-border pb-6">
+                <div className="text-center md:text-left space-y-1">
+                  <h2 className="text-3xl font-black text-brand-text tracking-tight font-sans">
+                    Resume Analysis Outcomes
+                  </h2>
+                  <p className="text-brand-text-muted text-sm">
+                    Review matching parameters, skills gaps, and checklist recommendations below.
+                  </p>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleReset}
+                    className="px-5 py-2.5 rounded-xl border border-brand-border bg-brand-card hover:bg-brand-border text-sm font-semibold text-brand-text hover:text-white transition-all flex items-center gap-2"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                    Analyze New File
+                  </button>
+                </div>
+              </div>
 
-            {/* Comprehensive Results Tabs panels */}
-            <ResultsPanel data={analysisData} />
-          </div>
-        )}
+              {/* Main Dashboard Panel Component */}
+              <ResultsPanel data={analysisData} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
 
-      {/* Footer */}
-      <footer className="w-full py-6 text-center text-xs text-slate-600 border-t border-slate-900/60">
-        <p>© Resume Indexer. Developed for Solverex.</p>
+      {/* FOOTER */}
+      <footer className="w-full py-8 text-center text-xs text-brand-text-muted border-t border-brand-border bg-brand-primary/40 relative z-10">
+        <p>© Solvrex. Developed for Solverex.</p>
       </footer>
     </div>
   );
